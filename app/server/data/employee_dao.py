@@ -12,8 +12,8 @@ def get_all_employees():
     Returns:
         list: The return value. All rows from the select statement.
     '''
-    query = 'SELECT * FROM all_employees WHERE id != %s;'
-    data = (g.id,)
+    query = 'SELECT * FROM all_employees;'
+    data = ()
     res = None
     try:
         res = sql_select(query, data)
