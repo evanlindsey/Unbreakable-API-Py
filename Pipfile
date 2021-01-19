@@ -1,0 +1,19 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+pylint = "*"
+autopep8 = "*"
+
+[packages]
+flask = "*"
+mysql-connector-python = "*"
+python-jose = {extras = ["pycryptodome"],version = "*"}
+gunicorn = "*"
+flasgger = "*"
+pycryptodome = "*"
+
+[requires]
+python_version = "3.9"
