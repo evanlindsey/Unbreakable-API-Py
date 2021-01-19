@@ -3,13 +3,13 @@ import os
 from flask import Flask
 from flasgger import Swagger
 
-from .server.api.customers import customers
-from .server.api.employees import employees
-from .server.api.inventory import inventory
-from .server.api.movies import movies
-from .server.api.pos import pos
-from .server.api.rentals import rentals
-from .server.api.user import user
+from .api.customers import customers
+from .api.employees import employees
+from .api.inventory import inventory
+from .api.movies import movies
+from .api.pos import pos
+from .api.rentals import rentals
+from .api.user import user
 
 
 def create_app():

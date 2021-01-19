@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 
-from ..responses import success, error
+from ..common.responses import success, error
 from ..auth.jwt import authorize, admin_only
 from ..models.inventory_model import Inventory
 from ..data.inventory_dao import add_inventory_item, get_available_inventory, get_inventory, delete_inventory

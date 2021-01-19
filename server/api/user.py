@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 
-from ..responses import success, error, auth_error
+from ..common.responses import success, error, auth_error
 from ..auth.jwt import authorize, encode_jwt
 from ..models.user_model import User, Creds
 from ..data.user_dao import auth_user, get_role, add_user, get_user, update_user, delete_user

@@ -1,7 +1,5 @@
-import mysql.connector
-
 from ..models.pos_model import RentalFee, PaymentInfo
-from ..db_connect import sql_command, sql_select
+from ..common.db_connect import sql_command, sql_select
 
 
 def add_payment(payment_info):

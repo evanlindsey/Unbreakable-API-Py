@@ -3,7 +3,7 @@ from flask import request, g
 from functools import wraps
 from jose import jwt
 
-from ..responses import auth_error
+from ..common.responses import auth_error
 
 
 def encode_jwt(token):

@@ -1,7 +1,5 @@
-import mysql.connector
-
 from ..models.movie_model import Movie
-from ..db_connect import sql_command, sql_select
+from ..common.db_connect import sql_command, sql_select
 
 
 def add_movie(movie):

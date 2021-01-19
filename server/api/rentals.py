@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 
-from ..responses import success, error
+from ..common.responses import success, error
 from ..auth.jwt import authorize
 from ..models.rental_model import NewRental, ReturnInfo
 from ..data.rental_dao import add_rental, return_rentals, get_all_current_rentals, get_current_rental

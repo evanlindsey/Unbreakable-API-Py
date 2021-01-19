@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 
-from ..responses import success, error
+from ..common.responses import success, error
 from ..auth.jwt import authorize
 from ..models.movie_model import Movie, NewMovie
 from ..data.movie_dao import add_movie, get_all_movies, get_movie

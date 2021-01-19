@@ -1,9 +1,8 @@
-import mysql.connector
 from flask import g
 from datetime import datetime
 
 from ..models.employee_model import Employee
-from ..db_connect import sql_command, sql_select
+from ..common.db_connect import sql_command, sql_select
 
 
 def get_all_employees():

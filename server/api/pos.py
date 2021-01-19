@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 
-from ..responses import success, error
+from ..common.responses import success, error
 from ..auth.jwt import authorize
 from ..models.pos_model import PaymentInfo
 from ..data.pos_dao import get_late_fees, add_payment

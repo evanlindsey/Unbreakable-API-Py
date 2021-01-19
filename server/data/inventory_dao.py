@@ -1,9 +1,8 @@
-import mysql.connector
 from flask import g
 from datetime import datetime
 
 from ..models.inventory_model import Inventory
-from ..db_connect import sql_command, sql_select
+from ..common.db_connect import sql_command, sql_select
 
 
 def add_inventory_item(movie_id, upc):

@@ -1,20 +1,17 @@
 from flask import Blueprint, request, jsonify
 
-from ..responses import success, error
-from ..auth.jwt import authorize, admin_only
-from ..models.employee_model import Employee
-from ..models.user_model import Creds
-from ..data.employee_dao import get_all_employees, get_employee, update_employee, delete_employee
-from ..data.user_dao import add_user
+from ..common.responses import success, error
+from ..auth.jwt import authorize
+from ..models.customer_model import Customer
+from ..data.customer_dao import add_customer, get_all_customers, get_customer, update_customer, delete_customer
 
-employees = Blueprint('employees', __name__, url_prefix='/api/employees')
+customers = Blueprint('customers', __name__, url_prefix='/api/customers')
 
 
-@employees.route('/', methods=['POST'])
+@customers.route('/', methods=['POST'])
 @authorize
-@admin_only
 def create(jwt_info):
-    '''Employee create endpoint (restricted to admins)
+    '''Customer create endpoint
     ---
     parameters:
         - name: Authorization
@@ -22,24 +19,24 @@ def create(jwt_info):
           type: string
           required: true
           description: Bearer < JWT >
-        - name: Employee
+        - name: Customer
           in: body
           required: true
           schema:
-            $ref: '#/definitions/Employee'
+            $ref: '#/definitions/Customer'
     definitions:
-        Employee:
+        Customer:
             type: object
             properties:
                 id:
                     type: string
-                email:
-                    type: string
-                role:
-                    type: string
                 first:
                     type: string
                 last:
+                    type: string
+                full:
+                    type: string
+                email:
                     type: string
                 address:
                     type: string
@@ -53,51 +50,47 @@ def create(jwt_info):
                     type: string
     responses:
         200:
-            description: Employee ID
+            description: Customer ID
             schema:
                 properties:
-                    EmployeeID:
+                    CustomerID:
                         type: object
                         properties:
                             id:
                                 type: string
         400:
-            description: Unable to create employee
+            description: Unable to create customer
             schema:
                 properties:
                     error:
                         type: string
     '''
     x = request.get_json()
-    payload = Creds(x['email'], x['password'])
-    user_id = add_user(payload)
-    if user_id is None or user_id == -1:
-        return error('unable to create employee.')
-    payload = Employee(user_id, x['email'], x['role'], x['first'], x['last'],
+    payload = Customer(None, x['first'], x['last'], None, x['email'],
                        x['address'], x['city'], x['state'], x['zip'], x['phone'])
-    res = update_employee(payload)
-    if res is not None and res != -1:
-        return jsonify({'id': user_id})
-    return error('unable to create employee.')
+    customer_id = add_customer(payload)
+    if customer_id is not None and customer_id != -1:
+        return jsonify({'id': customer_id})
+    return error('unable to create customer.')
 
 
-@employees.route('/all', methods=['GET'])
+@customers.route('/all', methods=['GET'])
 def read_all():
-    '''All employees read endpoint
+    '''All customers read endpoint
     ---
     definitions:
-        Employee:
+        Customer:
             type: object
             properties:
                 id:
                     type: string
-                email:
-                    type: string
-                role:
-                    type: string
                 first:
                     type: string
                 last:
+                    type: string
+                full:
+                    type: string
+                email:
                     type: string
                 address:
                     type: string
@@ -111,32 +104,32 @@ def read_all():
                     type: string
     responses:
         200:
-            description: All employees in the system
+            description: All customers in the system
             schema:
                 properties:
-                    Employees:
+                    Customers:
                         type: array
                         items:
                             schema:
-                                id: Employee
+                                id: Customer
                                 schema:
-                                    $ref: '#/definitions/Employee'
+                                    $ref: '#/definitions/Customer'
         400:
-            description: Unable to retrieve employees
+            description: Unable to retrieve customers
             schema:
                 properties:
                     error:
                         type: string
     '''
-    employees = get_all_employees()
-    if employees != -1:
-        return jsonify(employees)
-    return error('unable to retrieve employees.')
+    customers = get_all_customers()
+    if customers != -1:
+        return jsonify(customers)
+    return error('unable to retrieve customers.')
 
 
-@employees.route('/', methods=['GET'])
+@customers.route('/', methods=['GET'])
 def read():
-    '''Employee read endpoint
+    '''Customer read endpoint
     ---
     parameters:
         - name: id
@@ -144,18 +137,18 @@ def read():
           type: string
           required: true
     definitions:
-        Employee:
+        Customer:
             type: object
             properties:
                 id:
                     type: string
-                email:
-                    type: string
-                role:
-                    type: string
                 first:
                     type: string
                 last:
+                    type: string
+                full:
+                    type: string
+                email:
                     type: string
                 address:
                     type: string
@@ -169,30 +162,29 @@ def read():
                     type: string
     responses:
         200:
-            description: Employee information matching target ID
+            description: Customer information matching target ID
             schema:
-                $ref: '#/definitions/Employee'
+                $ref: '#/definitions/Customer'
         400:
-            description: Unable to retrieve employee
+            description: Unable to retrieve customer
             schema:
                 properties:
                     error:
                         type: string
     '''
-    employee_id = request.args.get('id')
-    if employee_id is None or employee_id == 'null' or employee_id == 'undefined':
-        return error('employee id was not provided.')
-    employee = get_employee(employee_id)
-    if employee != -1:
-        return jsonify(employee)
-    return error('unable to retrieve employee.')
+    customer_id = request.args.get('id')
+    if customer_id is None or customer_id == 'null' or customer_id == 'undefined':
+        return error('customer id was not provided.')
+    customer = get_customer(customer_id)
+    if customer != -1:
+        return jsonify(customer)
+    return error('unable to retrieve customer.')
 
 
-@employees.route('/', methods=['PUT'])
+@customers.route('/', methods=['PUT'])
 @authorize
-@admin_only
 def update(jwt_info):
-    '''Employee update endpoint (restricted to admins)
+    '''Customer update endpoint
     ---
     parameters:
         - name: Authorization
@@ -200,24 +192,24 @@ def update(jwt_info):
           type: string
           required: true
           description: Bearer < JWT >
-        - name: Employee
+        - name: Customer
           in: body
           required: true
           schema:
-            $ref: '#/definitions/Employee'
+            $ref: '#/definitions/Customer'
     definitions:
-        Employee:
+        Customer:
             type: object
             properties:
                 id:
                     type: string
-                email:
-                    type: string
-                role:
-                    type: string
                 first:
                     type: string
                 last:
+                    type: string
+                full:
+                    type: string
+                email:
                     type: string
                 address:
                     type: string
@@ -231,30 +223,29 @@ def update(jwt_info):
                     type: string
     responses:
         200:
-            description: Employee information
+            description: Customer information
             schema:
-                $ref: '#/definitions/Employee'
+                $ref: '#/definitions/Customer'
         400:
-            description: Unable to update employee
+            description: Unable to update customer
             schema:
                 properties:
                     error:
                         type: string
     '''
     x = request.get_json()
-    payload = Employee(x['id'], x['email'], x['role'], x['first'], x['last'],
+    payload = Customer(x['id'], x['first'], x['last'], x['full'], x['email'],
                        x['address'], x['city'], x['state'], x['zip'], x['phone'])
-    res = update_employee(payload)
+    res = update_customer(payload)
     if res is not None and res != -1:
         return jsonify(payload.as_dict())
-    return error('unable to update employee.')
+    return error('unable to update customer.')
 
 
-@employees.route('/', methods=['DELETE'])
+@customers.route('/', methods=['DELETE'])
 @authorize
-@admin_only
 def delete(jwt_info):
-    '''Employee delete endpoint (restricted to admins)
+    '''Customer delete endpoint
     ---
     parameters:
         - name: Authorization
@@ -268,22 +259,22 @@ def delete(jwt_info):
           required: true
     responses:
         200:
-            description: Employee removed
+            description: Customer removed
             schema:
                 properties:
                     success:
                         type: string
         400:
-            description: Unable to remove employee
+            description: Unable to remove customer
             schema:
                 properties:
                     error:
                         type: string
     '''
-    employee_id = request.args.get('id')
-    if employee_id is None or employee_id == 'null' or employee_id == 'undefined':
-        return error('employee id was not provided.')
-    res = delete_employee(employee_id)
+    customer_id = request.args.get('id')
+    if customer_id is None or customer_id == 'null' or customer_id == 'undefined':
+        return error('customer id was not provided.')
+    res = delete_customer(customer_id)
     if res is not None and res != -1:
-        return success('employee removed.')
-    return error('unable to remove employee.')
+        return success('customer removed.')
+    return error('unable to remove customer.')

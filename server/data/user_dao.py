@@ -1,9 +1,9 @@
 import json
-import mysql.connector
+
 from flask import g
 from datetime import datetime
 
-from ..db_connect import sql_command, sql_select
+from ..common.db_connect import sql_command, sql_select
 from ..models.user_model import User
 from ..auth.hash import get_salt, hash_password, check_password
 

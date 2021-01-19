@@ -1,9 +1,8 @@
-import mysql.connector
 from flask import g
 from datetime import datetime, timedelta
 
 from ..models.rental_model import Rental, NewRental
-from ..db_connect import sql_command, sql_select
+from ..common.db_connect import sql_command, sql_select
 
 
 def add_rental(new_rental):
