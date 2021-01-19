@@ -75,16 +75,9 @@ def create(jwt_info):
 
 
 @customers.route('/all', methods=['GET'])
-@authorize
-def read_all(jwt_info):
+def read_all():
     '''All customers read endpoint
     ---
-    parameters:
-        - name: Authorization
-          in: header
-          type: string
-          required: true
-          description: Bearer < JWT >
     definitions:
         Customer:
             type: object
@@ -135,16 +128,10 @@ def read_all(jwt_info):
 
 
 @customers.route('/', methods=['GET'])
-@authorize
-def read(jwt_info):
+def read():
     '''Customer read endpoint
     ---
     parameters:
-        - name: Authorization
-          in: header
-          type: string
-          required: true
-          description: Bearer < JWT >
         - name: id
           in: query
           type: string

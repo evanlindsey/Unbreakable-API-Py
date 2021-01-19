@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template
+from flask import Flask
 from flasgger import Swagger
 
 from .server.api.customers import customers

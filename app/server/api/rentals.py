@@ -60,16 +60,9 @@ def create_rental(jwt_info):
 
 
 @rentals.route('/current/all', methods=['GET'])
-@authorize
-def read_all_current(jwt_info):
+def read_all_current():
     '''All current rentals read endpoint
     ---
-    parameters:
-        - name: Authorization
-          in: header
-          type: string
-          required: true
-          description: Bearer < JWT >
     definitions:
         Rental:
             type: object
@@ -114,16 +107,10 @@ def read_all_current(jwt_info):
 
 
 @rentals.route('/current', methods=['GET'])
-@authorize
-def read_current(jwt_info):
+def read_current():
     '''Current rental read endpoint
     ---
     parameters:
-        - name: Authorization
-          in: header
-          type: string
-          required: true
-          description: Bearer < JWT >
         - name: id
           in: query
           type: string

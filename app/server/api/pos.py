@@ -60,16 +60,10 @@ def create_payment(jwt_info):
 
 
 @pos.route('/fees', methods=['GET'])
-@authorize
-def get_fees(jwt_info):
+def get_fees():
     '''POS fees endpoint
     ---
     parameters:
-        - name: Authorization
-          in: header
-          type: string
-          required: true
-          description: Bearer < JWT >
         - name: id
           in: query
           type: string

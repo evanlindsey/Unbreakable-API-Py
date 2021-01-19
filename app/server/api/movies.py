@@ -73,16 +73,9 @@ def create(jwt_info):
 
 
 @movies.route('/all', methods=['GET'])
-@authorize
-def read_all(jwt_info):
+def read_all():
     '''All movies read endpoint
     ---
-    parameters:
-        - name: Authorization
-          in: header
-          type: string
-          required: true
-          description: Bearer < JWT >
     definitions:
         Movie:
             type: object
@@ -139,16 +132,10 @@ def read_all(jwt_info):
 
 
 @movies.route('/', methods=['GET'])
-@authorize
-def read(jwt_info):
+def read():
     '''Movie read endpoint
     ---
     parameters:
-        - name: Authorization
-          in: header
-          type: string
-          required: true
-          description: Bearer < JWT >
         - name: id
           in: query
           type: string

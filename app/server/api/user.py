@@ -100,16 +100,10 @@ def role(jwt_info):
 
 
 @user.route('/', methods=['POST'])
-@authorize
-def create(jwt_info):
+def create():
     '''User create endpoint
     ---
     parameters:
-        - name: Authorization
-          in: header
-          type: string
-          required: true
-          description: Bearer < JWT >
         - name: Creds
           in: body
           required: true

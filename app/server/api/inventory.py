@@ -68,17 +68,9 @@ def create(jwt_info):
 
 
 @inventory.route('/all', methods=['GET'])
-@authorize
-@admin_only
-def read_all(jwt_info):
-    '''All inventory read endpoint (restricted to admins)
+def read_all():
+    '''All inventory read endpoint
     ---
-    parameters:
-        - name: Authorization
-          in: header
-          type: string
-          required: true
-          description: Bearer < JWT >
     definitions:
         Inventory:
             type: object
@@ -123,17 +115,10 @@ def read_all(jwt_info):
 
 
 @inventory.route('/', methods=['GET'])
-@authorize
-@admin_only
-def read(jwt_info):
-    '''Inventory item read endpoint (restricted to admins)
+def read():
+    '''Inventory item read endpoint
     ---
     parameters:
-        - name: Authorization
-          in: header
-          type: string
-          required: true
-          description: Bearer < JWT >
         - name: id
           in: query
           type: string

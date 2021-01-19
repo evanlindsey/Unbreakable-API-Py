@@ -82,17 +82,9 @@ def create(jwt_info):
 
 
 @employees.route('/all', methods=['GET'])
-@authorize
-@admin_only
-def read_all(jwt_info):
-    '''All employees read endpoint (restricted to admins)
+def read_all():
+    '''All employees read endpoint
     ---
-    parameters:
-        - name: Authorization
-          in: header
-          type: string
-          required: true
-          description: Bearer < JWT >
     definitions:
         Employee:
             type: object
@@ -143,17 +135,10 @@ def read_all(jwt_info):
 
 
 @employees.route('/', methods=['GET'])
-@authorize
-@admin_only
-def read(jwt_info):
-    '''Employee read endpoint (restricted to admins)
+def read():
+    '''Employee read endpoint
     ---
     parameters:
-        - name: Authorization
-          in: header
-          type: string
-          required: true
-          description: Bearer < JWT >
         - name: id
           in: query
           type: string
