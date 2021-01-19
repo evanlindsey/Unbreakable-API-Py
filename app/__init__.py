@@ -23,14 +23,25 @@ def create_app():
     app.register_blueprint(rentals)
     app.register_blueprint(user)
 
-    title = 'Unbreakable API'
+    appTitle = 'Unbreakable API'
 
-    app.config['SWAGGER'] = {'title': title}
-    Swagger(app)
+    app.config['SWAGGER'] = {'title': appTitle}
+    swagger_config = {
+        "headers": [],
+        "specs": [
+            {
+                "endpoint": 'apispec',
+                "route": '/apispec.json'
+            }
+        ],
+        "swagger_ui": False
+    }
+    Swagger(app, config=swagger_config)
 
     @app.route('/', defaults={'path': ''})
     @app.route('/<path:path>')
+    # pylint: disable=unused-variable
     def catch_all(path):
-        return title
+        return appTitle
 
     return app
