@@ -65,7 +65,7 @@ def auth():
     return auth_error('unable to authenticate user.')
 
 
-@user.route('/role', methods=['GET'])
+@user.route('/self/role', methods=['GET'])
 @authorize
 def role(jwt_info):
     '''User role endpoint
@@ -97,3 +97,37 @@ def role(jwt_info):
         return jsonify({'role': jwt_info['role']})
     except:
         return error('unable to get user role.')
+
+
+@user.route('/self/id', methods=['GET'])
+@authorize
+def read(jwt_info):
+    '''User ID endpoint
+    ---
+    parameters:
+        - name: Authorization
+          in: header
+          type: string
+          required: true
+          description: Bearer < JWT >
+    responses:
+        200:
+            description: User ID
+            schema:
+                properties:
+                    UserID:
+                        type: object
+                        properties:
+                            id:
+                                type: string
+        400:
+            description: Unable to retrieve user
+            schema:
+                properties:
+                    error:
+                        type: string
+    '''
+    try:
+        return jsonify({'id': jwt_info['id']})
+    except:
+        return error('unable to get user ID.')
