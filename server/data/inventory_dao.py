@@ -51,8 +51,8 @@ def get_inventory(inventory_id):
     Returns:
         list: The return value. The row from the select statement.
     '''
-    query = 'SELECT * FROM all_inventory WHERE id = %s;'
-    data = (inventory_id,)
+    query = f'SELECT * FROM all_inventory WHERE id = {inventory_id};'
+    data = ()
     try:
         res = sql_select(query, data)
         if len(res) == 1:

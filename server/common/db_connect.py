@@ -48,8 +48,8 @@ def sql_select(query, data):
     '''
     cnx = sql_connect()
     cursor = cnx.cursor()
-    cursor.execute(query, data)
-    res = [x for x in cursor.fetchall()]
+    res = [x.fetchall() for x in cursor.execute(query, data, multi=True)]
+    cnx.commit()
     cursor.close()
     cnx.close()
-    return res
+    return res[0]

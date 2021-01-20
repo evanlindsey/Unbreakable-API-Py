@@ -51,8 +51,8 @@ def get_customer(customer_id):
     Returns:
         list: The return value. The row from the select statement.
     '''
-    query = 'SELECT * FROM all_customers WHERE id = %s;'
-    data = (customer_id,)
+    query = f'SELECT * FROM all_customers WHERE id = {customer_id};'
+    data = ()
     try:
         res = sql_select(query, data)
         if len(res) == 1:

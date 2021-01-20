@@ -32,8 +32,8 @@ def get_employee(employee_id):
     Returns:
         list: The return value. The row from the select statement.
     '''
-    query = 'SELECT * FROM all_employees WHERE id = %s;'
-    data = (employee_id,)
+    query = f'SELECT * FROM all_employees WHERE id = {employee_id};'
+    data = ()
     try:
         res = sql_select(query, data)
         if len(res) == 1:

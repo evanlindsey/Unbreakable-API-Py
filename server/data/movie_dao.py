@@ -46,8 +46,8 @@ def get_movie(movie_id):
     Returns:
         list: The return value. The row from the select statement.
     '''
-    query = 'SELECT * FROM all_movies WHERE id = %s;'
-    data = (movie_id,)
+    query = f'SELECT * FROM all_movies WHERE id = {movie_id};'
+    data = ()
     try:
         res = sql_select(query, data)
         if len(res) == 1:
