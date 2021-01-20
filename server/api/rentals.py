@@ -32,8 +32,6 @@ def create_rental(jwt_info):
                     type: string
                 inventory_ids:
                     type: string
-                payment_amount:
-                    type: string
     responses:
         200:
             description: Rental ID
@@ -42,7 +40,7 @@ def create_rental(jwt_info):
                     RentalID:
                         type: object
                         properties:
-                            rental_id:
+                            id:
                                 type: string
         400:
             description: Unable to return rental
@@ -55,7 +53,7 @@ def create_rental(jwt_info):
     payload = NewRental(x['customer_id'], x['inventory_ids'], None)
     rental_id = add_rental(payload)
     if rental_id is not None and rental_id != -1:
-        return jsonify({'rental_id': rental_id})
+        return jsonify({'id': rental_id})
     return error('unable to rent movie(s).')
 
 
@@ -69,7 +67,7 @@ def read_all_current():
             properties:
                 id:
                     type: string
-                name:
+                customer_name:
                     type: string
                 customer_id:
                     type: string
@@ -121,7 +119,7 @@ def read_current():
             properties:
                 id:
                     type: string
-                name:
+                customer_name:
                     type: string
                 customer_id:
                     type: string

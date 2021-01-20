@@ -2,9 +2,9 @@ from datetime import datetime
 
 
 class Rental:
-    def __init__(self, rental_id, name, customer_id, titles, movie_ids, rented_on, due_date):
+    def __init__(self, rental_id, customer_name, customer_id, titles, movie_ids, rented_on, due_date):
         self.id = rental_id
-        self.name = name,
+        self.customer_name = customer_name
         self.customer_id = customer_id
         self.titles = titles
         self.movie_ids = movie_ids

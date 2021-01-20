@@ -31,8 +31,6 @@ def create(jwt_info):
         Employee:
             type: object
             properties:
-                id:
-                    type: string
                 email:
                     type: string
                 role:
@@ -50,6 +48,8 @@ def create(jwt_info):
                 zip:
                     type: string
                 phone:
+                    type: string
+                password:
                     type: string
     responses:
         200:

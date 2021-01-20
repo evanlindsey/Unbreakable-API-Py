@@ -28,8 +28,6 @@ def create(jwt_info):
         Customer:
             type: object
             properties:
-                id:
-                    type: string
                 first:
                     type: string
                 last:

@@ -7,7 +7,6 @@ from .api.customers import customers
 from .api.employees import employees
 from .api.inventory import inventory
 from .api.movies import movies
-from .api.pos import pos
 from .api.rentals import rentals
 from .api.user import user
 
@@ -19,7 +18,6 @@ def create_app():
     app.register_blueprint(employees)
     app.register_blueprint(inventory)
     app.register_blueprint(movies)
-    app.register_blueprint(pos)
     app.register_blueprint(rentals)
     app.register_blueprint(user)
 

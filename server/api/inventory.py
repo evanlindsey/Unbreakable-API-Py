@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 
 from ..common.responses import success, error
-from ..auth.jwt import authorize, admin_only
+from ..auth.jwt import authorize
 from ..models.inventory_model import Inventory
 from ..data.inventory_dao import add_inventory_item, get_available_inventory, get_inventory, delete_inventory
 
@@ -10,9 +10,8 @@ inventory = Blueprint('inventory', __name__, url_prefix='/api/inventory')
 
 @inventory.route('/', methods=['POST'])
 @authorize
-@admin_only
 def create(jwt_info):
-    '''Inventory item create endpoint (restricted to admins)
+    '''Inventory item create endpoint
     ---
     parameters:
         - name: Authorization
@@ -29,19 +28,9 @@ def create(jwt_info):
         Inventory:
             type: object
             properties:
-                id:
-                    type: string
-                title:
-                    type: string
-                full:
-                    type: string
                 movie_id:
                     type: string
                 upc:
-                    type: string
-                charge:
-                    type: string
-                modified_on:
                     type: string
     responses:
         200:
@@ -164,9 +153,8 @@ def read():
 
 @inventory.route('/', methods=['DELETE'])
 @authorize
-@admin_only
 def delete(jwt_info):
-    '''Inventory item delete endpoint (restricted to admins)
+    '''Inventory item delete endpoint
     ---
     parameters:
         - name: Authorization

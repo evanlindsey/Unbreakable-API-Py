@@ -23,7 +23,7 @@ def create(jwt_info):
           in: body
           required: true
           schema:
-            $ref: '#/definitions/Movie'
+            $ref: '#/definitions/NewMovie'
     definitions:
         NewMovie:
             type: object
