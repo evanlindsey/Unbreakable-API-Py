@@ -36,7 +36,7 @@ def get_available_inventory():
     try:
         res = sql_select(query, data)
         if len(res) > 0:
-            return [Inventory(x[0], x[1], x[2], x[3], x[4], x[5], x[6]).as_dict() for x in res]
+            return [Inventory(x[0], x[1], x[2], x[3], x[4], x[5]).as_dict() for x in res]
         return -1
     except:
         return -1
@@ -57,7 +57,7 @@ def get_inventory(inventory_id):
         res = sql_select(query, data)
         if len(res) == 1:
             x = res[0]
-            return Inventory(x[0], x[1], x[2], x[3], x[4], x[5], x[6]).as_dict()
+            return Inventory(x[0], x[1], x[2], x[3], x[4], x[5]).as_dict()
         return -1
     except:
         return -1

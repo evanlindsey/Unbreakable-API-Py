@@ -1,8 +1,7 @@
 class Movie:
-    def __init__(self, movie_id, title, full, stock, rating, category, genres, year, minutes, language, actors, director, imdb):
+    def __init__(self, movie_id, title, stock, rating, category, genres, year, minutes, language, actors, director, imdb):
         self.id = movie_id
         self.title = title
-        self.full = full
         self.stock = stock
         self.rating = str(rating) if rating is not None else '0'
         self.category = category

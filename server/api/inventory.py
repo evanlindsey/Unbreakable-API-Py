@@ -68,8 +68,6 @@ def read_all():
                     type: string
                 title:
                     type: string
-                full:
-                    type: string
                 movie_id:
                     type: string
                 upc:
@@ -119,8 +117,6 @@ def read():
                 id:
                     type: string
                 title:
-                    type: string
-                full:
                     type: string
                 movie_id:
                     type: string

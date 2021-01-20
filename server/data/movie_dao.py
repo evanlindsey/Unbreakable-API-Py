@@ -31,7 +31,7 @@ def get_all_movies():
     try:
         res = sql_select(query, data)
         if len(res) > 0:
-            return [Movie(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8], x[9], x[10], x[11], x[12]).as_dict() for x in res]
+            return [Movie(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8], x[9], x[10], x[11]).as_dict() for x in res]
         return -1
     except:
         return -1
@@ -52,7 +52,7 @@ def get_movie(movie_id):
         res = sql_select(query, data)
         if len(res) == 1:
             x = res[0]
-            return Movie(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8], x[9], x[10], x[11], x[12]).as_dict()
+            return Movie(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8], x[9], x[10], x[11]).as_dict()
         return -1
     except:
         return -1

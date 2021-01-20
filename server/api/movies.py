@@ -84,8 +84,6 @@ def read_all():
                     type: string
                 title:
                     type: string
-                full:
-                    type: string
                 stock:
                     type: string
                 rating:
@@ -147,8 +145,6 @@ def read():
                 id:
                     type: string
                 title:
-                    type: string
-                full:
                     type: string
                 stock:
                     type: string

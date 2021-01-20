@@ -1,8 +1,7 @@
 class Inventory:
-    def __init__(self, inventory_id, title, full, movie_id, upc, charge, modified_on):
+    def __init__(self, inventory_id, title, movie_id, upc, charge, modified_on):
         self.id = inventory_id
         self.title = title
-        self.full = full
         self.movie_id = movie_id
         self.upc = upc
         self.charge = charge
