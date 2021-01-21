@@ -3,7 +3,7 @@ from flask import Blueprint, request, jsonify
 from ..common.responses import success, error
 from ..auth.jwt import authorize
 from ..models.movie_model import Movie
-from ..data.movie_dao import add_movie, get_all_movies, get_movie, delete_movie
+from ..data.movie_dao import add_movie, get_all_movies, get_movie, update_movie, delete_movie
 
 movies = Blueprint('movies', __name__, url_prefix='/api/movies')
 
@@ -157,6 +157,67 @@ def read():
     '''
     movie_id = request.args.get('id')
     return jsonify(get_movie(movie_id))
+
+
+@movies.route('/', methods=['PUT'])
+@authorize
+def update(jwt_info):
+    '''Movie update endpoint
+    ---
+    parameters:
+        - name: Authorization
+          in: header
+          type: string
+          required: true
+          description: Bearer < JWT >
+        - name: Movie
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Movie'
+    definitions:
+        Movie:
+            type: object
+            properties:
+                id:
+                    type: string
+                category:
+                    type: string
+                title:
+                    type: string
+                genres:
+                    type: string
+                year:
+                    type: string
+                minutes:
+                    type: string
+                language:
+                    type: string
+                actors:
+                    type: string
+                director:
+                    type: string
+                imdb:
+                    type: string
+    responses:
+        200:
+            description: Movie information
+            schema:
+                $ref: '#/definitions/Movie'
+        400:
+            description: Unable to update movie
+            schema:
+                properties:
+                    error:
+                        type: string
+    '''
+    x = request.get_json()
+    payload = Movie(x['id'], x['category'], x['title'], x['genres'], x['year'],
+                    x['minutes'], x['language'], x['actors'], x['director'], x['imdb'])
+    res = update_movie(payload)
+    if res == 0:
+        return jsonify(payload.as_dict())
+    return error(res)
 
 
 @movies.route('/', methods=['DELETE'])

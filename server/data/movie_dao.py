@@ -41,6 +41,21 @@ def get_movie(movie_id):
     return sql_select(query, data)
 
 
+def update_movie(movie):
+    '''Update the data fields for the row of the movies table that matches the movie ID.
+
+    Args:
+        movie: Movie class object.
+
+    Returns:
+        int: The return value. 0 if successful.
+    '''
+    query = ('UPDATE movies SET category_id = %s, title = %s, genres = %s, year = %s, minutes = %s, language = %s, actors = %s, director = %s, imdb = %s WHERE id = %s;')
+    data = (movie.category, movie.title, movie.genres, movie.year,
+            movie.minutes, movie.language, movie.actors, movie.director, movie.imdb, movie.id)
+    return sql_command(query, data)
+
+
 def delete_movie(movie_id):
     '''Delete the row from the movies table that matches the target ID.
 
