@@ -4,19 +4,18 @@ from datetime import datetime
 from ..common.db_connect import sql_command, sql_select
 
 
-def add_inventory_item(movie_id, upc):
+def add_inventory_item(inventory):
     '''Add a row to the inventory table using the given information.
 
     Args:
-        movie_id: Target movie ID.
-        upc: UPC number for new inventory item.
+        inventory: Inventory class object.
 
     Returns:
         int: The return value. Inventory item ID if successful.
     '''
     query = (
         'INSERT INTO inventory (movie_id, upc, modified_by, modified_on) VALUES (%s, %s, %s, %s);')
-    data = (movie_id, upc, g.id, datetime.now())
+    data = (inventory.movie_id, inventory.upc, g.id, datetime.now())
     return sql_command(query, data)
 
 

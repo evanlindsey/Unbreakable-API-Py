@@ -5,7 +5,7 @@ def add_movie(movie):
     '''Add a row to the movies table using the given information.
 
     Args:
-        movie: NewMovie class object.
+        movie: Movie class object.
 
     Returns:
         boolean: The return value. Movie ID if successful.

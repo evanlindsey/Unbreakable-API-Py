@@ -58,7 +58,7 @@ def return_rentals(return_info):
     '''Add a date to the returned_on column for the rental ID
 
     Args:
-        return_info: ReturnInfo class object.
+        return_info: Return class object.
 
     Returns:
         int: The return value. 0 if successful.

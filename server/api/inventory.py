@@ -43,8 +43,9 @@ def create(jwt_info):
                             id:
                                 type: string
     '''
-    payload = request.get_json()
-    item_id = add_inventory_item(payload['movie_id'], payload['upc'])
+    x = request.get_json()
+    payload = Inventory(x['movie_id'], x['upc'])
+    item_id = add_inventory_item(payload)
     return jsonify({'id': item_id})
 
 

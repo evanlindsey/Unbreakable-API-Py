@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 
 from ..common.responses import success, error
 from ..auth.jwt import authorize
-from ..models.rental_model import NewRental, ReturnInfo
+from ..models.rental_model import Rental, Return
 from ..data.rental_dao import add_rental, return_rentals, get_all_current_rentals, get_current_rental
 
 rentals = Blueprint('rentals', __name__, url_prefix='/api/rentals')
@@ -19,13 +19,13 @@ def create_rental(jwt_info):
           type: string
           required: true
           description: Bearer < JWT >
-        - name: NewRental
+        - name: Rental
           in: body
           required: true
           schema:
-            $ref: '#/definitions/NewRental'
+            $ref: '#/definitions/Rental'
     definitions:
-        NewRental:
+        Rental:
             type: object
             properties:
                 customer_id:
@@ -44,7 +44,7 @@ def create_rental(jwt_info):
                                 type: string
     '''
     x = request.get_json()
-    payload = NewRental(x['customer_id'], x['inventory_ids'], None)
+    payload = Rental(x['customer_id'], x['inventory_ids'], None)
     rental_id = add_rental(payload)
     return jsonify({'id': rental_id})
 
@@ -135,13 +135,13 @@ def create_return(jwt_info):
           type: string
           required: true
           description: Bearer < JWT >
-        - name: ReturnInfo
+        - name: Return
           in: body
           required: true
           schema:
-            $ref: '#/definitions/ReturnInfo'
+            $ref: '#/definitions/Return'
     definitions:
-        ReturnInfo:
+        Return:
             type: object
             properties:
                 id:
@@ -167,7 +167,7 @@ def create_return(jwt_info):
                         type: string
     '''
     x = request.get_json()
-    payload = ReturnInfo(x['id'], x['customer_id'],
+    payload = Return(x['id'], x['customer_id'],
                          x['movie_ids'], x['ratings'])
     res = return_rentals(payload)
     if res == 0:

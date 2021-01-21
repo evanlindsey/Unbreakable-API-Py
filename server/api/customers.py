@@ -32,8 +32,6 @@ def create(jwt_info):
                     type: string
                 last:
                     type: string
-                full:
-                    type: string
                 email:
                     type: string
                 address:
@@ -58,7 +56,7 @@ def create(jwt_info):
                                 type: string
     '''
     x = request.get_json()
-    payload = Customer(None, x['first'], x['last'], None, x['email'],
+    payload = Customer(None, x['first'], x['last'], x['email'],
                        x['address'], x['city'], x['state'], x['zip'], x['phone'])
     customer_id = add_customer(payload)
     return jsonify({'id': customer_id})
@@ -177,8 +175,6 @@ def update(jwt_info):
                     type: string
                 last:
                     type: string
-                full:
-                    type: string
                 email:
                     type: string
                 address:
@@ -204,7 +200,7 @@ def update(jwt_info):
                         type: string
     '''
     x = request.get_json()
-    payload = Customer(x['id'], x['first'], x['last'], x['full'], x['email'],
+    payload = Customer(x['id'], x['first'], x['last'], x['email'],
                        x['address'], x['city'], x['state'], x['zip'], x['phone'])
     res = update_customer(payload)
     if res == 0:

@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 
 from ..common.responses import success, error
 from ..auth.jwt import authorize
-from ..models.movie_model import Movie, NewMovie
+from ..models.movie_model import Movie
 from ..data.movie_dao import add_movie, get_all_movies, get_movie, delete_movie
 
 movies = Blueprint('movies', __name__, url_prefix='/api/movies')
@@ -19,13 +19,13 @@ def create(jwt_info):
           type: string
           required: true
           description: Bearer < JWT >
-        - name: NewMovie
+        - name: Movie
           in: body
           required: true
           schema:
-            $ref: '#/definitions/NewMovie'
+            $ref: '#/definitions/Movie'
     definitions:
-        NewMovie:
+        Movie:
             type: object
             properties:
                 category:
@@ -58,8 +58,8 @@ def create(jwt_info):
                                 type: string
     '''
     x = request.get_json()
-    payload = NewMovie(x['category'], x['title'], x['genres'], x['year'],
-                       x['minutes'], x['language'], x['actors'], x['director'], x['imdb'])
+    payload = Movie(None, x['category'], x['title'], x['genres'], x['year'],
+                    x['minutes'], x['language'], x['actors'], x['director'], x['imdb'])
     movie_id = add_movie(payload)
     return jsonify({'id': movie_id})
 
