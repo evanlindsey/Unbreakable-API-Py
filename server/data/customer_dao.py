@@ -57,17 +57,3 @@ def update_customer(customer):
     data = (customer.first, customer.last, customer.email, customer.address, customer.city,
             customer.state, customer.zip, customer.phone, g.id, datetime.now(), customer.id)
     return sql_command(query, data)
-
-
-def delete_customer(customer_id):
-    '''Delete the row from the customers table that matches the target ID.
-
-    Args:
-        customer_id: Target customer ID.
-
-    Returns:
-        int: The return value. 0 if successful.
-    '''
-    query = ('DELETE FROM customers WHERE id = %s;')
-    data = (customer_id,)
-    return sql_command(query, data)

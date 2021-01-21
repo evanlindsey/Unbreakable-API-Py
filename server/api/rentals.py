@@ -42,19 +42,11 @@ def create_rental(jwt_info):
                         properties:
                             id:
                                 type: string
-        400:
-            description: Unable to return rental
-            schema:
-                properties:
-                    error:
-                        type: string
     '''
     x = request.get_json()
     payload = NewRental(x['customer_id'], x['inventory_ids'], None)
     rental_id = add_rental(payload)
-    if rental_id is not None and rental_id != -1:
-        return jsonify({'id': rental_id})
-    return error('unable to rent movie(s).')
+    return jsonify({'id': rental_id})
 
 
 @rentals.route('/current/all', methods=['GET'])
@@ -91,17 +83,8 @@ def read_all_current():
                                 id: Rental
                                 schema:
                                     $ref: '#/definitions/Rental'
-        400:
-            description: Unable to retrieve current rentals
-            schema:
-                properties:
-                    error:
-                        type: string
     '''
-    rentals = get_all_current_rentals()
-    if rentals != -1:
-        return jsonify(rentals)
-    return error('unable to retrieve current rentals.')
+    return jsonify(get_all_current_rentals())
 
 
 @rentals.route('/current', methods=['GET'])
@@ -136,20 +119,9 @@ def read_current():
             description: Rental information matching target ID
             schema:
                 $ref: '#/definitions/Rental'
-        400:
-            description: Unable to retrieve rental
-            schema:
-                properties:
-                    error:
-                        type: string
     '''
     rental_id = request.args.get('id')
-    if rental_id is None or rental_id == 'null' or rental_id == 'undefined':
-        return error('rental id was not provided.')
-    rental = get_current_rental(rental_id)
-    if rental != -1:
-        return jsonify(rental)
-    return error('unable to retrieve rental.')
+    return jsonify(get_current_rental(rental_id))
 
 
 @rentals.route('/return', methods=['POST'])
@@ -198,6 +170,6 @@ def create_return(jwt_info):
     payload = ReturnInfo(x['id'], x['customer_id'],
                          x['movie_ids'], x['ratings'])
     res = return_rentals(payload)
-    if res is not None and res != -1:
+    if res == 0:
         return success('rental returned.')
     return error('unable to return rental.')

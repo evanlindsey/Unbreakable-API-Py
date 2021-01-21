@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 
-from ..common.responses import success, error, auth_error
+from ..common.responses import success, auth_error
 from ..auth.jwt import authorize, encode_jwt
 from ..models.user_model import User, Creds
 from ..data.user_dao import auth_user, get_role
@@ -86,17 +86,17 @@ def role(jwt_info):
                         properties:
                             role:
                                 type: string
-        400:
+        401:
             description: Unable to retrieve user
             schema:
                 properties:
-                    error:
+                    auth_error:
                         type: string
     '''
     try:
         return jsonify({'role': jwt_info['role']})
     except:
-        return error('unable to get user role.')
+        return auth_error('unable to get user role.')
 
 
 @user.route('/self/id', methods=['GET'])
@@ -120,14 +120,14 @@ def read(jwt_info):
                         properties:
                             id:
                                 type: string
-        400:
+        401:
             description: Unable to retrieve user
             schema:
                 properties:
-                    error:
+                    auth_error:
                         type: string
     '''
     try:
         return jsonify({'id': jwt_info['id']})
     except:
-        return error('unable to get user ID.')
+        return auth_error('unable to get user ID.')

@@ -42,18 +42,10 @@ def create(jwt_info):
                         properties:
                             id:
                                 type: string
-        400:
-            description: Unable to create inventory item
-            schema:
-                properties:
-                    error:
-                        type: string
     '''
     payload = request.get_json()
     item_id = add_inventory_item(payload['movie_id'], payload['upc'])
-    if item_id is not None and item_id != -1:
-        return jsonify({'id': item_id})
-    return error('unable to create inventory item.')
+    return jsonify({'id': item_id})
 
 
 @inventory.route('/all', methods=['GET'])
@@ -88,17 +80,8 @@ def read_all():
                                 id: Inventory
                                 schema:
                                     $ref: '#/definitions/Inventory'
-        400:
-            description: Unable to retrieve inventory
-            schema:
-                properties:
-                    error:
-                        type: string
     '''
-    inventory = get_available_inventory()
-    if inventory != -1:
-        return jsonify(inventory)
-    return error('unable to retrieve inventory.')
+    return jsonify(get_available_inventory())
 
 
 @inventory.route('/', methods=['GET'])
@@ -131,20 +114,9 @@ def read():
             description: Inventory item information matching target ID
             schema:
                 $ref: '#/definitions/Inventory'
-        400:
-            description: Unable to retrieve inventory item
-            schema:
-                properties:
-                    error:
-                        type: string
     '''
     inventory_id = request.args.get('id')
-    if inventory_id is None or inventory_id == 'null' or inventory_id == 'undefined':
-        return error('inventory item id was not provided.')
-    item = get_inventory(inventory_id)
-    if item != -1:
-        return jsonify(item)
-    return error('unable to retrieve inventory item.')
+    return jsonify(get_inventory(inventory_id))
 
 
 @inventory.route('/', methods=['DELETE'])
@@ -177,9 +149,7 @@ def delete(jwt_info):
                         type: string
     '''
     inventory_id = request.args.get('id')
-    if inventory_id is None or inventory_id == 'null' or inventory_id == 'undefined':
-        return error('inventory item id was not provided.')
     res = delete_inventory(inventory_id)
-    if res is not None and res != -1:
+    if res == 0:
         return success('inventory item removed.')
     return error('unable to remove inventory item.')
