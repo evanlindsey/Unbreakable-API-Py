@@ -14,7 +14,7 @@ employees = Blueprint('employees', __name__, url_prefix='/api/employees')
 @authorize
 @admin_only
 def create(jwt_info):
-    '''Employee create endpoint (restricted to admins)
+    '''Employee create endpoint
     ---
     parameters:
         - name: Authorization
@@ -74,9 +74,15 @@ def create(jwt_info):
 @employees.route('/all', methods=['GET'])
 @authorize
 @admin_only
-def read_all():
-    '''All employees read endpoint (restricted to admins)
+def read_all(jwt_info):
+    '''All employees read endpoint
     ---
+    parameters:
+        - name: Authorization
+          in: header
+          type: string
+          required: true
+          description: Bearer < JWT >
     definitions:
         Employee:
             type: object
@@ -120,10 +126,15 @@ def read_all():
 @employees.route('/', methods=['GET'])
 @authorize
 @admin_only
-def read():
-    '''Employee read endpoint (restricted to admins)
+def read(jwt_info):
+    '''Employee read endpoint
     ---
     parameters:
+        - name: Authorization
+          in: header
+          type: string
+          required: true
+          description: Bearer < JWT >
         - name: id
           in: query
           type: string
@@ -166,7 +177,7 @@ def read():
 @authorize
 @admin_only
 def update(jwt_info):
-    '''Employee update endpoint (restricted to admins)
+    '''Employee update endpoint
     ---
     parameters:
         - name: Authorization
@@ -228,7 +239,7 @@ def update(jwt_info):
 @authorize
 @admin_only
 def delete(jwt_info):
-    '''Employee delete endpoint (restricted to admins)
+    '''Employee delete endpoint
     ---
     parameters:
         - name: Authorization
