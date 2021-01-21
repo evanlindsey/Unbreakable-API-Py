@@ -58,16 +58,14 @@ def auth():
     if user is None or user == -1:
         return auth_error('unable to authenticate user.')
     user_id = user['info']['id']
-    role = get_role(user_id)
-    if role is not None and role != -1:
-        user['token'] = encode_jwt({'id': user_id, 'role': role})
-        return jsonify(user)
-    return auth_error('unable to authenticate user.')
+    role = get_role(user_id)['role']
+    user['token'] = encode_jwt({'id': user_id, 'role': role})
+    return jsonify(user)
 
 
 @user.route('/self/role', methods=['GET'])
 @authorize
-def role(jwt_info):
+def self_role(jwt_info):
     '''User role endpoint
     ---
     parameters:
@@ -101,7 +99,7 @@ def role(jwt_info):
 
 @user.route('/self/id', methods=['GET'])
 @authorize
-def read(jwt_info):
+def self_id(jwt_info):
     '''User ID endpoint
     ---
     parameters:

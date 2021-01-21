@@ -56,7 +56,7 @@ def get_role(user_id):
     '''
     query = ('SELECT role FROM users WHERE id = %s;')
     data = (user_id,)
-    return sql_select(query, data)
+    return sql_select(query, data)[0]
 
 
 def add_user(creds):
