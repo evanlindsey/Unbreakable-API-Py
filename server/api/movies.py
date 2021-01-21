@@ -3,7 +3,7 @@ from flask import Blueprint, request, jsonify
 from ..common.responses import success, error
 from ..auth.jwt import authorize
 from ..models.movie_model import Movie, NewMovie
-from ..data.movie_dao import add_movie, get_all_movies, get_movie
+from ..data.movie_dao import add_movie, get_all_movies, get_movie, delete_movie
 
 movies = Blueprint('movies', __name__, url_prefix='/api/movies')
 
@@ -157,3 +157,39 @@ def read():
     '''
     movie_id = request.args.get('id')
     return jsonify(get_movie(movie_id))
+
+
+@movies.route('/', methods=['DELETE'])
+@authorize
+def delete(jwt_info):
+    '''Movie delete endpoint
+    ---
+    parameters:
+        - name: Authorization
+          in: header
+          type: string
+          required: true
+          description: Bearer < JWT >
+        - name: id
+          in: query
+          type: string
+          required: true
+    responses:
+        200:
+            description: Movie removed
+            schema:
+                properties:
+                    success:
+                        type: string
+        400:
+            description: Unable to remove movie
+            schema:
+                properties:
+                    error:
+                        type: string
+    '''
+    movie_id = request.args.get('id')
+    res = delete_movie(movie_id)
+    if res == 0:
+        return success('movie removed.')
+    return error(res)

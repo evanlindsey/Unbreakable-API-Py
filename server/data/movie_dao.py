@@ -39,3 +39,17 @@ def get_movie(movie_id):
     query = f'SELECT * FROM all_movies WHERE id = {movie_id};'
     data = ()
     return sql_select(query, data)
+
+
+def delete_movie(movie_id):
+    '''Delete the row from the movies table that matches the target ID.
+
+    Args:
+        movie_id: Target movie ID.
+
+    Returns:
+        int: The return value. 0 if successful.
+    '''
+    query = ('DELETE FROM movies WHERE id = %s;')
+    data = (movie_id,)
+    return sql_command(query, data)

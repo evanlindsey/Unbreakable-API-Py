@@ -3,7 +3,7 @@ from flask import Blueprint, request, jsonify
 from ..common.responses import success, error
 from ..auth.jwt import authorize
 from ..models.customer_model import Customer
-from ..data.customer_dao import add_customer, get_all_customers, get_customer, update_customer
+from ..data.customer_dao import add_customer, get_all_customers, get_customer, update_customer, delete_customer
 
 customers = Blueprint('customers', __name__, url_prefix='/api/customers')
 
@@ -209,4 +209,40 @@ def update(jwt_info):
     res = update_customer(payload)
     if res == 0:
         return jsonify(payload.as_dict())
-    return error('unable to update customer.')
+    return error(res)
+
+
+@customers.route('/', methods=['DELETE'])
+@authorize
+def delete(jwt_info):
+    '''Customer delete endpoint
+    ---
+    parameters:
+        - name: Authorization
+          in: header
+          type: string
+          required: true
+          description: Bearer < JWT >
+        - name: id
+          in: query
+          type: string
+          required: true
+    responses:
+        200:
+            description: Customer removed
+            schema:
+                properties:
+                    success:
+                        type: string
+        400:
+            description: Unable to remove customer
+            schema:
+                properties:
+                    error:
+                        type: string
+    '''
+    customer_id = request.args.get('id')
+    res = delete_customer(customer_id)
+    if res == 0:
+        return success('customer removed.')
+    return error(res)
