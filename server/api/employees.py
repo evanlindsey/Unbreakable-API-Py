@@ -72,8 +72,10 @@ def create(jwt_info):
 
 
 @employees.route('/all', methods=['GET'])
+@authorize
+@admin_only
 def read_all():
-    '''All employees read endpoint
+    '''All employees read endpoint (restricted to admins)
     ---
     definitions:
         Employee:
@@ -116,8 +118,10 @@ def read_all():
 
 
 @employees.route('/', methods=['GET'])
+@authorize
+@admin_only
 def read():
-    '''Employee read endpoint
+    '''Employee read endpoint (restricted to admins)
     ---
     parameters:
         - name: id

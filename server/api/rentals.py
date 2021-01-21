@@ -3,7 +3,7 @@ from flask import Blueprint, request, jsonify
 from ..common.responses import success, error
 from ..auth.jwt import authorize
 from ..models.rental_model import Rental, Return
-from ..data.rental_dao import add_rental, return_rentals, get_all_current_rentals, get_current_rental
+from ..data.rental_dao import add_rental, get_all_current_rentals, get_current_rental, return_rentals
 
 rentals = Blueprint('rentals', __name__, url_prefix='/api/rentals')
 
