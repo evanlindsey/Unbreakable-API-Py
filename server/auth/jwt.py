@@ -29,7 +29,7 @@ def authorize(f):
             g.id = user_info['id']
             g.role = user_info['role']
         except Exception as e:
-            return auth_error(str(e).lower())
+            return auth_error(str(e))
         return f(user_info, *args, **kwargs)
     return decorated
 
@@ -41,6 +41,6 @@ def admin_only(f):
             if g.role is None or g.role != 'admin':
                 return auth_error('admin role access is required.')
         except Exception as e:
-            return auth_error(str(e).lower())
+            return auth_error(str(e))
         return f(*args, **kwargs)
     return decorated

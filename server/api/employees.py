@@ -217,7 +217,7 @@ def update(jwt_info):
     res = update_employee(payload)
     if res == 0:
         return jsonify(payload.as_dict())
-    return error('unable to update employee.')
+    return error(res)
 
 
 @employees.route('/', methods=['DELETE'])
@@ -254,4 +254,4 @@ def delete(jwt_info):
     res = delete_employee(employee_id)
     if res == 0:
         return success('employee removed.')
-    return error('unable to remove employee.')
+    return error(res)

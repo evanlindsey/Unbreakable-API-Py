@@ -172,4 +172,4 @@ def create_return(jwt_info):
     res = return_rentals(payload)
     if res == 0:
         return success('rental returned.')
-    return error('unable to return rental.')
+    return error(res)

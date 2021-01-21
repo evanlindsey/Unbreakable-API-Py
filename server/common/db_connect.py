@@ -33,8 +33,8 @@ def sql_command(query, data):
         row_id = cursor.lastrowid
         cnx.commit()
         return row_id
-    except Exception as err:
-        return str(err)
+    except Exception as e:
+        return str(e)
     finally:
         cursor.close()
         cnx.close()
@@ -57,8 +57,8 @@ def sql_select(query, data):
         res = [dict(zip(cursor.column_names, x)) for x in rows[0]]
         cnx.commit()
         return res
-    except Exception as err:
-        return str(err)
+    except Exception as e:
+        return str(e)
     finally:
         cursor.close()
         cnx.close()

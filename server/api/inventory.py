@@ -152,4 +152,4 @@ def delete(jwt_info):
     res = delete_inventory(inventory_id)
     if res == 0:
         return success('inventory item removed.')
-    return error('unable to remove inventory item.')
+    return error(res)
