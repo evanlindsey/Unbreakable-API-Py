@@ -37,7 +37,6 @@ def create_app():
     Swagger(app, config=swagger_config)
 
     @app.route('/', defaults={'path': ''})
-    @app.route('/<path:path>')
     # pylint: disable=unused-variable
     def catch_all(path):
         return appTitle
