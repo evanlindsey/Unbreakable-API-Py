@@ -28,12 +28,16 @@ def sql_command(query, data):
     '''
     cnx = sql_connect()
     cursor = cnx.cursor()
-    cursor.execute(query, data)
-    row_id = cursor.lastrowid
-    cnx.commit()
-    cursor.close()
-    cnx.close()
-    return row_id
+    try:
+        cursor.execute(query, data)
+        row_id = cursor.lastrowid
+        cnx.commit()
+        return row_id
+    except Exception as err:
+        return str(err)
+    finally:
+        cursor.close()
+        cnx.close()
 
 
 def sql_select(query, data):
@@ -48,8 +52,13 @@ def sql_select(query, data):
     '''
     cnx = sql_connect()
     cursor = cnx.cursor()
-    res = [x.fetchall() for x in cursor.execute(query, data, multi=True)]
-    cnx.commit()
-    cursor.close()
-    cnx.close()
-    return res[0]
+    try:
+        rows = [x.fetchall() for x in cursor.execute(query, data, multi=True)]
+        res = [dict(zip(cursor.column_names, x)) for x in rows[0]]
+        cnx.commit()
+        return res
+    except Exception as err:
+        return str(err)
+    finally:
+        cursor.close()
+        cnx.close()

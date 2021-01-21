@@ -1,7 +1,6 @@
 from flask import g
 from datetime import datetime
 
-from ..models.employee_model import Employee
 from ..common.db_connect import sql_command, sql_select
 
 
@@ -13,14 +12,7 @@ def get_all_employees():
     '''
     query = 'SELECT * FROM all_employees;'
     data = ()
-    res = None
-    try:
-        res = sql_select(query, data)
-    except:
-        return -1
-    if len(res) > 0:
-        return [Employee(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8], x[9]).as_dict() for x in res]
-    return -1
+    return sql_select(query, data)
 
 
 def get_employee(employee_id):
@@ -34,14 +26,7 @@ def get_employee(employee_id):
     '''
     query = f'SELECT * FROM all_employees WHERE id = {employee_id};'
     data = ()
-    try:
-        res = sql_select(query, data)
-        if len(res) == 1:
-            x = res[0]
-            return Employee(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8], x[9]).as_dict()
-        return -1
-    except:
-        return -1
+    return sql_select(query, data)
 
 
 def update_employee(employee):
@@ -51,19 +36,12 @@ def update_employee(employee):
         employee: Employee class object.
 
     Returns:
-        int: The return value. 0 if successful. -1 if error.
+        int: The return value. 0 if successful.
     '''
-    res = get_employee(employee.id)
-    if res != -1:
-        query = ('UPDATE users SET email = %s, role = %s, first = %s, last = %s, address = %s, city = %s, state = %s, zip = %s, phone = %s, modified_by = %s, modified_on = %s WHERE id = %s;')
-        data = (employee.email, employee.role, employee.first, employee.last, employee.address,
-                employee.city, employee.state, employee.zip, employee.phone, g.id, datetime.now(), employee.id)
-    else:
-        return -1
-    try:
-        return sql_command(query, data)
-    except:
-        return -1
+    query = ('UPDATE users SET email = %s, role = %s, first = %s, last = %s, address = %s, city = %s, state = %s, zip = %s, phone = %s, modified_by = %s, modified_on = %s WHERE id = %s;')
+    data = (employee.email, employee.role, employee.first, employee.last, employee.address,
+            employee.city, employee.state, employee.zip, employee.phone, g.id, datetime.now(), employee.id)
+    return sql_command(query, data)
 
 
 def delete_employee(employee_id):
@@ -73,14 +51,8 @@ def delete_employee(employee_id):
         employee_id: Target employee ID.
 
     Returns:
-        int: The return value. 0 if successful. -1 if error.
+        int: The return value. 0 if successful.
     '''
-    res = get_employee(employee_id)
-    if res != -1:
-        query = ('DELETE FROM users WHERE id = %s;')
-        data = (employee_id,)
-        try:
-            return sql_command(query, data)
-        except:
-            return -1
-    return -1
+    query = ('DELETE FROM users WHERE id = %s;')
+    data = (employee_id,)
+    return sql_command(query, data)

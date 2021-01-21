@@ -1,7 +1,6 @@
 from flask import g
 from datetime import datetime
 
-from ..models.inventory_model import Inventory
 from ..common.db_connect import sql_command, sql_select
 
 
@@ -13,16 +12,12 @@ def add_inventory_item(movie_id, upc):
         upc: UPC number for new inventory item.
 
     Returns:
-        int: The return value. Inventory item ID if successful. -1 if error.
+        int: The return value. Inventory item ID if successful.
     '''
     query = (
         'INSERT INTO inventory (movie_id, upc, modified_by, modified_on) VALUES (%s, %s, %s, %s);')
     data = (movie_id, upc, g.id, datetime.now())
-    try:
-        return sql_command(query, data)
-    except:
-        return -1
-    return -1
+    return sql_command(query, data)
 
 
 def get_available_inventory():
@@ -33,13 +28,7 @@ def get_available_inventory():
     '''
     query = 'SELECT * FROM available_inventory;'
     data = ()
-    try:
-        res = sql_select(query, data)
-        if len(res) > 0:
-            return [Inventory(x[0], x[1], x[2], x[3], x[4], x[5]).as_dict() for x in res]
-        return -1
-    except:
-        return -1
+    return sql_select(query, data)
 
 
 def get_inventory(inventory_id):
@@ -53,14 +42,7 @@ def get_inventory(inventory_id):
     '''
     query = f'SELECT * FROM all_inventory WHERE id = {inventory_id};'
     data = ()
-    try:
-        res = sql_select(query, data)
-        if len(res) == 1:
-            x = res[0]
-            return Inventory(x[0], x[1], x[2], x[3], x[4], x[5]).as_dict()
-        return -1
-    except:
-        return -1
+    return sql_select(query, data)
 
 
 def delete_inventory(inventory_id):
@@ -70,14 +52,8 @@ def delete_inventory(inventory_id):
         inventory_id: Target inventory item ID.
 
     Returns:
-        int: The return value. 0 if successful. -1 if error.
+        int: The return value. 0 if successful.
     '''
-    res = get_inventory(inventory_id)
-    if res != -1:
-        query = ('DELETE FROM inventory WHERE id = %s;')
-        data = (inventory_id,)
-        try:
-            return sql_command(query, data)
-        except:
-            return -1
-    return -1
+    query = ('DELETE FROM inventory WHERE id = %s;')
+    data = (inventory_id,)
+    return sql_command(query, data)
