@@ -21,13 +21,13 @@ def create(jwt_info):
           type: string
           required: true
           description: Bearer < JWT >
-        - name: Employee
+        - name: Creds
           in: body
           required: true
           schema:
-            $ref: '#/definitions/Employee'
+            $ref: '#/definitions/Creds'
     definitions:
-        Employee:
+        Creds:
             type: object
             properties:
                 email:

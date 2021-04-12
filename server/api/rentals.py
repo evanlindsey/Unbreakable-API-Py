@@ -29,12 +29,10 @@ def create_rental(jwt_info):
             type: object
             properties:
                 customer_id:
-                email:
                     type: string
                     description: The customer ID.
                     default: "100"
                 inventory_ids:
-                email:
                     type: string
                     description: The inventory IDs.
                     default: "1, 2, 3, 4"

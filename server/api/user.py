@@ -24,8 +24,12 @@ def auth():
             properties:
                 email:
                     type: string
+                    description: The user email.
+                    default: "hello@world.com"
                 password:
                     type: string
+                    description: The user password.
+                    default: "password123"
         User:
             type: object
             properties:
