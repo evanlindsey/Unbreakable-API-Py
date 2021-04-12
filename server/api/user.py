@@ -3,9 +3,49 @@ from flask import Blueprint, request, jsonify
 from ..common.responses import success, auth_error
 from ..auth.jwt import authorize, encode_jwt
 from ..models.user_model import User, Creds
-from ..data.user_dao import auth_user, get_role
+from ..data.user_dao import add_user, auth_user, get_role, set_role
 
 user = Blueprint('user', __name__, url_prefix='/api/user')
+
+
+@user.route('/', methods=['POST'])
+def create(jwt_info):
+    '''User create endpoint
+    ---
+    parameters:
+        - name: Creds
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Creds'
+    definitions:
+        Creds:
+            type: object
+            properties:
+                email:
+                    type: string
+                    description: The user email.
+                    default: "hello@world.com"
+                password:
+                    type: string
+                    description: The user password.
+                    default: "password123"
+    responses:
+        200:
+            description: Employee ID
+            schema:
+                properties:
+                    EmployeeID:
+                        type: object
+                        properties:
+                            id:
+                                type: string
+    '''
+    x = request.get_json()
+    payload = Creds(x['email'], x['password'])
+    user_id = add_user(payload)
+    set_role(user_id)
+    return jsonify({'id': user_id})
 
 
 @user.route('/auth', methods=['POST'])

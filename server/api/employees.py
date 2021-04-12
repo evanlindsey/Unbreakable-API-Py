@@ -5,67 +5,14 @@ from ..auth.jwt import authorize
 from ..models.employee_model import Employee
 from ..models.user_model import Creds
 from ..data.employee_dao import get_all_employees, get_employee, update_employee, delete_employee
-from ..data.user_dao import add_user, set_role
 
 employees = Blueprint('employees', __name__, url_prefix='/api/employees')
-
-
-@employees.route('/', methods=['POST'])
-@authorize
-def create(jwt_info):
-    '''Employee create endpoint
-    ---
-    parameters:
-        - name: Authorization
-          in: header
-          type: string
-          required: true
-          description: Bearer < JWT >
-        - name: Creds
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/Creds'
-    definitions:
-        Creds:
-            type: object
-            properties:
-                email:
-                    type: string
-                    description: The user email.
-                    default: "hello@world.com"
-                password:
-                    type: string
-                    description: The user password.
-                    default: "password123"
-    responses:
-        200:
-            description: Employee ID
-            schema:
-                properties:
-                    EmployeeID:
-                        type: object
-                        properties:
-                            id:
-                                type: string
-    '''
-    x = request.get_json()
-    payload = Creds(x['email'], x['password'])
-    user_id = add_user(payload)
-    set_role(user_id)
-    return jsonify({'id': user_id})
 
 
 @employees.route('/all', methods=['GET'])
 def read_all():
     '''All employees read endpoint
     ---
-    parameters:
-        - name: Authorization
-          in: header
-          type: string
-          required: true
-          description: Bearer < JWT >
     definitions:
         Employee:
             type: object
@@ -111,11 +58,6 @@ def read():
     '''Employee read endpoint
     ---
     parameters:
-        - name: Authorization
-          in: header
-          type: string
-          required: true
-          description: Bearer < JWT >
         - name: id
           in: query
           type: int
