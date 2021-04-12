@@ -35,7 +35,7 @@ def create(jwt_info):
                 upc:
                     type: string
                     description: The movie UPC.
-                    default: "012345678910
+                    default: "012345678910"
     responses:
         200:
             description: Inventory Item ID
