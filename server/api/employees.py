@@ -57,7 +57,7 @@ def create(jwt_info):
 
 
 @employees.route('/all', methods=['GET'])
-def read_all(jwt_info):
+def read_all():
     '''All employees read endpoint
     ---
     parameters:
@@ -107,7 +107,7 @@ def read_all(jwt_info):
 
 
 @employees.route('/', methods=['GET'])
-def read(jwt_info):
+def read():
     '''Employee read endpoint
     ---
     parameters:
