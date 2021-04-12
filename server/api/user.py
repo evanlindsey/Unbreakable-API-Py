@@ -9,7 +9,7 @@ user = Blueprint('user', __name__, url_prefix='/api/user')
 
 
 @user.route('/', methods=['POST'])
-def create(jwt_info):
+def create():
     '''User create endpoint
     ---
     parameters:
