@@ -21,7 +21,7 @@ def create_app():
     app.register_blueprint(rentals)
     app.register_blueprint(user)
 
-    appTitle = 'Unbreakable API'
+    appTitle = 'Unbreakable API Lite'
 
     app.config['SWAGGER'] = {'title': appTitle}
     swagger_config = {
