@@ -30,22 +30,40 @@ def create():
                     type: string
                     description: The user password.
                     default: "password123"
+        User:
+            type: object
+            properties:
+                info:
+                    type: object
+                    properties:
+                        id:
+                            type: string
+                        first:
+                            type: string
+                        last:
+                            type: string
+                token:
+                    type: string
     responses:
         200:
-            description: Employee ID
+            description: JWT access token and user information
+            schema:
+                $ref: '#/definitions/User'
+        401:
+            description: Unable to create user
             schema:
                 properties:
-                    EmployeeID:
-                        type: object
-                        properties:
-                            id:
-                                type: string
+                    auth_error:
+                        type: string
     '''
     x = request.get_json()
     payload = Creds(x['email'], x['password'])
+    user_role = 'employee'
     user_id = add_user(payload)
-    set_role(user_id)
-    return jsonify({'id': user_id})
+    set_role(user_id, user_role)
+    user = auth_user(payload)
+    user['token'] = encode_jwt({'id': user_id, 'role': user_role})
+    return jsonify(user)
 
 
 @user.route('/auth', methods=['POST'])
@@ -102,8 +120,8 @@ def auth():
     if user is None or user == -1:
         return auth_error('unable to authenticate user.')
     user_id = user['info']['id']
-    role = get_role(user_id)['role']
-    user['token'] = encode_jwt({'id': user_id, 'role': role})
+    user_role = get_role(user_id)['role']
+    user['token'] = encode_jwt({'id': user_id, 'role': user_role})
     return jsonify(user)
 
 

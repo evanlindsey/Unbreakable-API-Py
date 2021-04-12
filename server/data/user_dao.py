@@ -45,7 +45,7 @@ def auth_user(creds):
     return -1
 
 
-def set_role(user_id, user_role='employee'):
+def set_role(user_id, user_role):
     '''Set the role for the user that matches the target ID.
 
     Args:
