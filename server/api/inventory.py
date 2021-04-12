@@ -30,8 +30,12 @@ def create(jwt_info):
             properties:
                 movie_id:
                     type: string
+                    description: The movie ID.
+                    default: "100"
                 upc:
                     type: string
+                    description: The movie UPC.
+                    default: "012345678910
     responses:
         200:
             description: Inventory Item ID
@@ -92,7 +96,7 @@ def read():
     parameters:
         - name: id
           in: query
-          type: string
+          type: int
           required: true
     definitions:
         Inventory:
@@ -133,7 +137,7 @@ def delete(jwt_info):
           description: Bearer < JWT >
         - name: id
           in: query
-          type: string
+          type: int
           required: true
     responses:
         200:

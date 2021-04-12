@@ -29,9 +29,15 @@ def create_rental(jwt_info):
             type: object
             properties:
                 customer_id:
+                email:
                     type: string
+                    description: The customer ID.
+                    default: "100"
                 inventory_ids:
+                email:
                     type: string
+                    description: The inventory IDs.
+                    default: "1, 2, 3, 4"
     responses:
         200:
             description: Rental ID
@@ -94,7 +100,7 @@ def read_current():
     parameters:
         - name: id
           in: query
-          type: string
+          type: int
           required: true
     definitions:
         Rental:
@@ -135,23 +141,10 @@ def create_return(jwt_info):
           type: string
           required: true
           description: Bearer < JWT >
-        - name: Return
-          in: body
+        - name: id
+          in: query
+          type: int
           required: true
-          schema:
-            $ref: '#/definitions/Return'
-    definitions:
-        Return:
-            type: object
-            properties:
-                id:
-                    type: string
-                customer_id:
-                    type: string
-                movie_ids:
-                    type: string
-                ratings:
-                    type: string
     responses:
         200:
             description: Rental returned
@@ -166,10 +159,8 @@ def create_return(jwt_info):
                     error:
                         type: string
     '''
-    x = request.get_json()
-    payload = Return(x['id'], x['customer_id'],
-                         x['movie_ids'], x['ratings'])
-    res = return_rentals(payload)
+    rental_id = request.args.get('id')
+    res = return_rentals(rental_id)
     if res == 0:
         return success('rental returned.')
     return error(res)

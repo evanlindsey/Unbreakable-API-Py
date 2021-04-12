@@ -54,15 +54,15 @@ def get_current_rental(rental_id):
     return sql_select(query, data)
 
 
-def return_rentals(return_info):
+def return_rentals(rental_id):
     '''Add a date to the returned_on column for the rental ID
 
     Args:
-        return_info: Return class object.
+        rental_id: Target rental ID.
 
     Returns:
         int: The return value. 0 if successful.
     '''
     query = ('UPDATE rentals SET returned_on = %s WHERE id = %s;')
-    data = (datetime.now(), return_info.id)
+    data = (datetime.now(), rental_id)
     return sql_command(query, data)
