@@ -58,7 +58,7 @@ def read_all():
     '''All inventory read endpoint
     ---
     definitions:
-        Inventory:
+        GetInventory:
             type: object
             properties:
                 id:
@@ -84,7 +84,7 @@ def read_all():
                             schema:
                                 id: Inventory
                                 schema:
-                                    $ref: '#/definitions/Inventory'
+                                    $ref: '#/definitions/GetInventory'
     '''
     return jsonify(get_available_inventory())
 
@@ -99,7 +99,7 @@ def read():
           type: int
           required: true
     definitions:
-        Inventory:
+        GetInventory:
             type: object
             properties:
                 id:
@@ -118,7 +118,7 @@ def read():
         200:
             description: Inventory item information matching target ID
             schema:
-                $ref: '#/definitions/Inventory'
+                $ref: '#/definitions/GetInventory'
     '''
     inventory_id = request.args.get('id')
     return jsonify(get_inventory(inventory_id))

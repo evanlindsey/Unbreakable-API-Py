@@ -83,7 +83,7 @@ def read_all():
     '''All customers read endpoint
     ---
     definitions:
-        Customer:
+        GetCustomer:
             type: object
             properties:
                 id:
@@ -117,7 +117,7 @@ def read_all():
                             schema:
                                 id: Customer
                                 schema:
-                                    $ref: '#/definitions/Customer'
+                                    $ref: '#/definitions/GetCustomer'
     '''
     return jsonify(get_all_customers())
 
@@ -132,7 +132,7 @@ def read():
           type: int
           required: true
     definitions:
-        Customer:
+        GetCustomer:
             type: object
             properties:
                 id:
@@ -159,7 +159,7 @@ def read():
         200:
             description: Customer information matching target ID
             schema:
-                $ref: '#/definitions/Customer'
+                $ref: '#/definitions/GetCustomer'
     '''
     customer_id = request.args.get('id')
     return jsonify(get_customer(customer_id))

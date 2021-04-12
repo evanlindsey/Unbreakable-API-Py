@@ -14,7 +14,7 @@ def read_all():
     '''All employees read endpoint
     ---
     definitions:
-        Employee:
+        GetEmployee:
             type: object
             properties:
                 id:
@@ -48,7 +48,7 @@ def read_all():
                             schema:
                                 id: Employee
                                 schema:
-                                    $ref: '#/definitions/Employee'
+                                    $ref: '#/definitions/GetEmployee'
     '''
     return jsonify(get_all_employees())
 
@@ -63,7 +63,7 @@ def read():
           type: int
           required: true
     definitions:
-        Employee:
+        GetEmployee:
             type: object
             properties:
                 id:
@@ -90,7 +90,7 @@ def read():
         200:
             description: Employee information matching target ID
             schema:
-                $ref: '#/definitions/Employee'
+                $ref: '#/definitions/GetEmployee'
     '''
     employee_id = request.args.get('id')
     return jsonify(get_employee(employee_id))

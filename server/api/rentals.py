@@ -58,7 +58,7 @@ def read_all_current():
     '''All current rentals read endpoint
     ---
     definitions:
-        Rental:
+        GetRental:
             type: object
             properties:
                 id:
@@ -86,7 +86,7 @@ def read_all_current():
                             schema:
                                 id: Rental
                                 schema:
-                                    $ref: '#/definitions/Rental'
+                                    $ref: '#/definitions/GetRental'
     '''
     return jsonify(get_all_current_rentals())
 
@@ -101,7 +101,7 @@ def read_current():
           type: int
           required: true
     definitions:
-        Rental:
+        GetRental:
             type: object
             properties:
                 id:
@@ -122,7 +122,7 @@ def read_current():
         200:
             description: Rental information matching target ID
             schema:
-                $ref: '#/definitions/Rental'
+                $ref: '#/definitions/GetRental'
     '''
     rental_id = request.args.get('id')
     return jsonify(get_current_rental(rental_id))

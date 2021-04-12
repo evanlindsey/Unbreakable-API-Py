@@ -83,7 +83,7 @@ def read_all():
     '''All movies read endpoint
     ---
     definitions:
-        Movie:
+        GetMovie:
             type: object
             properties:
                 id:
@@ -121,7 +121,7 @@ def read_all():
                             schema:
                                 id: Movie
                                 schema:
-                                    $ref: '#/definitions/Movie'
+                                    $ref: '#/definitions/GetMovie'
     '''
     return jsonify(get_all_movies())
 
@@ -136,7 +136,7 @@ def read():
           type: int
           required: true
     definitions:
-        Movie:
+        GetMovie:
             type: object
             properties:
                 id:
@@ -167,7 +167,7 @@ def read():
         200:
             description: Movie information matching target ID
             schema:
-                $ref: '#/definitions/Movie'
+                $ref: '#/definitions/GetMovie'
     '''
     movie_id = request.args.get('id')
     return jsonify(get_movie(movie_id))
