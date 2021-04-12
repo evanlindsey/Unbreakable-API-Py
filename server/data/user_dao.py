@@ -87,5 +87,5 @@ def add_user(creds):
     salt = get_salt()
     hashed = hash_password(creds.password, salt)
     password = json.dumps({'salt': salt, 'hash': hashed})
-    data = (creds.email, password, g.id, datetime.now())
+    data = (creds.email, password, '0', datetime.now())
     return sql_command(query, data)
