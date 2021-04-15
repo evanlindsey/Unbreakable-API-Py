@@ -60,7 +60,7 @@ def read():
     parameters:
         - name: id
           in: query
-          type: int
+          type: integer
           required: true
     definitions:
         GetEmployee:
@@ -109,7 +109,7 @@ def update(jwt_info):
           description: Bearer < JWT >
         - name: id
           in: query
-          type: int
+          type: integer
           required: true
         - name: Employee
           in: body
@@ -187,7 +187,7 @@ def delete(jwt_info):
           description: Bearer < JWT >
         - name: id
           in: query
-          type: int
+          type: integer
           required: true
     responses:
         200:

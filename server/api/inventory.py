@@ -96,7 +96,7 @@ def read():
     parameters:
         - name: id
           in: query
-          type: int
+          type: integer
           required: true
     definitions:
         GetInventory:
@@ -137,7 +137,7 @@ def delete(jwt_info):
           description: Bearer < JWT >
         - name: id
           in: query
-          type: int
+          type: integer
           required: true
     responses:
         200:

@@ -133,7 +133,7 @@ def read():
     parameters:
         - name: id
           in: query
-          type: int
+          type: integer
           required: true
     definitions:
         GetMovie:
@@ -186,7 +186,7 @@ def update(jwt_info):
           description: Bearer < JWT >
         - name: id
           in: query
-          type: int
+          type: integer
           required: true
         - name: Movie
           in: body
@@ -264,7 +264,7 @@ def delete(jwt_info):
           description: Bearer < JWT >
         - name: id
           in: query
-          type: int
+          type: integer
           required: true
     responses:
         200:

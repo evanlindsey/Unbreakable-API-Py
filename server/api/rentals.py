@@ -98,7 +98,7 @@ def read_current():
     parameters:
         - name: id
           in: query
-          type: int
+          type: integer
           required: true
     definitions:
         GetRental:
@@ -141,7 +141,7 @@ def create_return(jwt_info):
           description: Bearer < JWT >
         - name: id
           in: query
-          type: int
+          type: integer
           required: true
     responses:
         200:

@@ -129,7 +129,7 @@ def read():
     parameters:
         - name: id
           in: query
-          type: int
+          type: integer
           required: true
     definitions:
         GetCustomer:
@@ -178,7 +178,7 @@ def update(jwt_info):
           description: Bearer < JWT >
         - name: id
           in: query
-          type: int
+          type: integer
           required: true
         - name: Customer
           in: body
@@ -256,7 +256,7 @@ def delete(jwt_info):
           description: Bearer < JWT >
         - name: id
           in: query
-          type: int
+          type: integer
           required: true
     responses:
         200:
