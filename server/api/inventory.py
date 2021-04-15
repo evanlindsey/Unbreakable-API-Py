@@ -30,8 +30,12 @@ def create(jwt_info):
             properties:
                 movie_id:
                     type: string
+                    description: The movie ID.
+                    default: "100"
                 upc:
                     type: string
+                    description: The movie UPC.
+                    default: "012345678910"
     responses:
         200:
             description: Inventory Item ID
@@ -54,7 +58,7 @@ def read_all():
     '''All inventory read endpoint
     ---
     definitions:
-        Inventory:
+        GetInventory:
             type: object
             properties:
                 id:
@@ -80,7 +84,7 @@ def read_all():
                             schema:
                                 id: Inventory
                                 schema:
-                                    $ref: '#/definitions/Inventory'
+                                    $ref: '#/definitions/GetInventory'
     '''
     return jsonify(get_available_inventory())
 
@@ -92,10 +96,10 @@ def read():
     parameters:
         - name: id
           in: query
-          type: string
+          type: integer
           required: true
     definitions:
-        Inventory:
+        GetInventory:
             type: object
             properties:
                 id:
@@ -114,7 +118,7 @@ def read():
         200:
             description: Inventory item information matching target ID
             schema:
-                $ref: '#/definitions/Inventory'
+                $ref: '#/definitions/GetInventory'
     '''
     inventory_id = request.args.get('id')
     return jsonify(get_inventory(inventory_id))
@@ -133,7 +137,7 @@ def delete(jwt_info):
           description: Bearer < JWT >
         - name: id
           in: query
-          type: string
+          type: integer
           required: true
     responses:
         200:

@@ -28,24 +28,38 @@ def create(jwt_info):
         Movie:
             type: object
             properties:
-                category:
-                    type: string
                 title:
                     type: string
+                    description: The movie title.
+                    default: "Starship Troopers"
                 genres:
                     type: string
+                    description: The movie genres.
+                    default: "Action, Sci-Fi, War"
                 year:
                     type: string
+                    description: The movie year.
+                    default: "1997"
                 minutes:
                     type: string
+                    description: The movie runtime in minutes.
+                    default: "129"
                 language:
                     type: string
+                    description: The movie language.
+                    default: "English"
                 actors:
                     type: string
+                    description: The movie top billed actors.
+                    default: "Casper Van Dien, Denise Richards"
                 director:
                     type: string
+                    description: The movie director.
+                    default: "Paul Verhoeven"
                 imdb:
                     type: string
+                    description: The user email.
+                    default: "https://www.imdb.com/title/tt0120201/"
     responses:
         200:
             description: Movie ID
@@ -58,7 +72,7 @@ def create(jwt_info):
                                 type: string
     '''
     x = request.get_json()
-    payload = Movie(None, x['category'], x['title'], x['genres'], x['year'],
+    payload = Movie(None, '1', x['title'], x['genres'], x['year'],
                     x['minutes'], x['language'], x['actors'], x['director'], x['imdb'])
     movie_id = add_movie(payload)
     return jsonify({'id': movie_id})
@@ -69,7 +83,7 @@ def read_all():
     '''All movies read endpoint
     ---
     definitions:
-        Movie:
+        GetMovie:
             type: object
             properties:
                 id:
@@ -107,7 +121,7 @@ def read_all():
                             schema:
                                 id: Movie
                                 schema:
-                                    $ref: '#/definitions/Movie'
+                                    $ref: '#/definitions/GetMovie'
     '''
     return jsonify(get_all_movies())
 
@@ -119,10 +133,10 @@ def read():
     parameters:
         - name: id
           in: query
-          type: string
+          type: integer
           required: true
     definitions:
-        Movie:
+        GetMovie:
             type: object
             properties:
                 id:
@@ -153,7 +167,7 @@ def read():
         200:
             description: Movie information matching target ID
             schema:
-                $ref: '#/definitions/Movie'
+                $ref: '#/definitions/GetMovie'
     '''
     movie_id = request.args.get('id')
     return jsonify(get_movie(movie_id))
@@ -170,6 +184,10 @@ def update(jwt_info):
           type: string
           required: true
           description: Bearer < JWT >
+        - name: id
+          in: query
+          type: integer
+          required: true
         - name: Movie
           in: body
           required: true
@@ -179,26 +197,38 @@ def update(jwt_info):
         Movie:
             type: object
             properties:
-                id:
-                    type: string
-                category:
-                    type: string
                 title:
                     type: string
+                    description: The movie title.
+                    default: "Starship Troopers"
                 genres:
                     type: string
+                    description: The movie genres.
+                    default: "Action, Sci-Fi, War"
                 year:
                     type: string
+                    description: The movie year.
+                    default: "1997"
                 minutes:
                     type: string
+                    description: The movie runtime in minutes.
+                    default: "129"
                 language:
                     type: string
+                    description: The movie language.
+                    default: "English"
                 actors:
                     type: string
+                    description: The movie top billed actors.
+                    default: "Casper Van Dien, Denise Richards"
                 director:
                     type: string
+                    description: The movie director.
+                    default: "Paul Verhoeven"
                 imdb:
                     type: string
+                    description: The user email.
+                    default: "https://www.imdb.com/title/tt0120201/"
     responses:
         200:
             description: Movie information
@@ -211,8 +241,9 @@ def update(jwt_info):
                     error:
                         type: string
     '''
+    movie_id = request.args.get('id')
     x = request.get_json()
-    payload = Movie(x['id'], x['category'], x['title'], x['genres'], x['year'],
+    payload = Movie(movie_id, '1', x['title'], x['genres'], x['year'],
                     x['minutes'], x['language'], x['actors'], x['director'], x['imdb'])
     res = update_movie(payload)
     if res == 0:
@@ -233,7 +264,7 @@ def delete(jwt_info):
           description: Bearer < JWT >
         - name: id
           in: query
-          type: string
+          type: integer
           required: true
     responses:
         200:

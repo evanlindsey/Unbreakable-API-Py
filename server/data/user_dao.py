@@ -45,6 +45,20 @@ def auth_user(creds):
     return -1
 
 
+def set_role(user_id, user_role):
+    '''Set the role for the user that matches the target ID.
+
+    Args:
+        user_id: Target user ID.
+
+    Returns:
+        int: The return value. 0 if successful.
+    '''
+    query = ('UPDATE users SET role = %s WHERE id = %s;')
+    data = (user_role, user_id)
+    return sql_command(query, data)
+
+
 def get_role(user_id):
     '''Retrieve the role for the user that matches the target ID.
 
@@ -73,5 +87,5 @@ def add_user(creds):
     salt = get_salt()
     hashed = hash_password(creds.password, salt)
     password = json.dumps({'salt': salt, 'hash': hashed})
-    data = (creds.email, password, g.id, datetime.now())
+    data = (creds.email, password, '0', datetime.now())
     return sql_command(query, data)

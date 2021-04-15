@@ -28,22 +28,38 @@ def create(jwt_info):
         Customer:
             type: object
             properties:
-                first:
-                    type: string
-                last:
-                    type: string
                 email:
                     type: string
+                    description: The customer email.
+                    default: "hello@world.com"
+                first:
+                    type: string
+                    description: The customer first name.
+                    default: "Jan"
+                last:
+                    type: string
+                    description: The customer last name.
+                    default: "Smith"
                 address:
                     type: string
+                    description: The customer address.
+                    default: "123 Test Ln"
                 city:
                     type: string
+                    description: The customer city.
+                    default: "San Francisco"
                 state:
                     type: string
+                    description: The customer state.
+                    default: "CA"
                 zip:
                     type: string
+                    description: The customer zip.
+                    default: "12345"
                 phone:
                     type: string
+                    description: The customer phone.
+                    default: "(123)456-7890)"
     responses:
         200:
             description: Customer ID
@@ -67,7 +83,7 @@ def read_all():
     '''All customers read endpoint
     ---
     definitions:
-        Customer:
+        GetCustomer:
             type: object
             properties:
                 id:
@@ -101,7 +117,7 @@ def read_all():
                             schema:
                                 id: Customer
                                 schema:
-                                    $ref: '#/definitions/Customer'
+                                    $ref: '#/definitions/GetCustomer'
     '''
     return jsonify(get_all_customers())
 
@@ -113,10 +129,10 @@ def read():
     parameters:
         - name: id
           in: query
-          type: string
+          type: integer
           required: true
     definitions:
-        Customer:
+        GetCustomer:
             type: object
             properties:
                 id:
@@ -143,7 +159,7 @@ def read():
         200:
             description: Customer information matching target ID
             schema:
-                $ref: '#/definitions/Customer'
+                $ref: '#/definitions/GetCustomer'
     '''
     customer_id = request.args.get('id')
     return jsonify(get_customer(customer_id))
@@ -160,6 +176,10 @@ def update(jwt_info):
           type: string
           required: true
           description: Bearer < JWT >
+        - name: id
+          in: query
+          type: integer
+          required: true
         - name: Customer
           in: body
           required: true
@@ -169,24 +189,38 @@ def update(jwt_info):
         Customer:
             type: object
             properties:
-                id:
-                    type: string
-                first:
-                    type: string
-                last:
-                    type: string
                 email:
                     type: string
+                    description: The customer email.
+                    default: "hello@world.com"
+                first:
+                    type: string
+                    description: The customer first name.
+                    default: "Jan"
+                last:
+                    type: string
+                    description: The customer last name.
+                    default: "Smith"
                 address:
                     type: string
+                    description: The customer address.
+                    default: "123 Test Ln"
                 city:
                     type: string
+                    description: The customer city.
+                    default: "San Francisco"
                 state:
                     type: string
+                    description: The customer state.
+                    default: "CA"
                 zip:
                     type: string
+                    description: The customer zip.
+                    default: "12345"
                 phone:
                     type: string
+                    description: The customer phone.
+                    default: "(123)456-7890)"
     responses:
         200:
             description: Customer information
@@ -199,8 +233,9 @@ def update(jwt_info):
                     error:
                         type: string
     '''
+    customer_id = request.args.get('id')
     x = request.get_json()
-    payload = Customer(x['id'], x['first'], x['last'], x['email'],
+    payload = Customer(customer_id, x['first'], x['last'], x['email'],
                        x['address'], x['city'], x['state'], x['zip'], x['phone'])
     res = update_customer(payload)
     if res == 0:
@@ -221,7 +256,7 @@ def delete(jwt_info):
           description: Bearer < JWT >
         - name: id
           in: query
-          type: string
+          type: integer
           required: true
     responses:
         200:

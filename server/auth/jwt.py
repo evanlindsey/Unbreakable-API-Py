@@ -32,15 +32,3 @@ def authorize(f):
             return auth_error(str(e))
         return f(user_info, *args, **kwargs)
     return decorated
-
-
-def admin_only(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        try:
-            if g.role is None or g.role != 'admin':
-                return auth_error('admin role access is required.')
-        except Exception as e:
-            return auth_error(str(e))
-        return f(*args, **kwargs)
-    return decorated

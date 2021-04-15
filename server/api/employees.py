@@ -1,90 +1,20 @@
 from flask import Blueprint, request, jsonify
 
 from ..common.responses import success, error
-from ..auth.jwt import authorize, admin_only
+from ..auth.jwt import authorize
 from ..models.employee_model import Employee
 from ..models.user_model import Creds
 from ..data.employee_dao import get_all_employees, get_employee, update_employee, delete_employee
-from ..data.user_dao import add_user
 
 employees = Blueprint('employees', __name__, url_prefix='/api/employees')
 
 
-@employees.route('/', methods=['POST'])
-@authorize
-@admin_only
-def create(jwt_info):
-    '''Employee create endpoint
-    ---
-    parameters:
-        - name: Authorization
-          in: header
-          type: string
-          required: true
-          description: Bearer < JWT >
-        - name: Employee
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/Employee'
-    definitions:
-        Employee:
-            type: object
-            properties:
-                email:
-                    type: string
-                role:
-                    type: string
-                first:
-                    type: string
-                last:
-                    type: string
-                address:
-                    type: string
-                city:
-                    type: string
-                state:
-                    type: string
-                zip:
-                    type: string
-                phone:
-                    type: string
-                password:
-                    type: string
-    responses:
-        200:
-            description: Employee ID
-            schema:
-                properties:
-                    EmployeeID:
-                        type: object
-                        properties:
-                            id:
-                                type: string
-    '''
-    x = request.get_json()
-    payload = Creds(x['email'], x['password'])
-    user_id = add_user(payload)
-    payload = Employee(user_id, x['email'], x['role'], x['first'], x['last'],
-                       x['address'], x['city'], x['state'], x['zip'], x['phone'])
-    update_employee(payload)
-    return jsonify({'id': user_id})
-
-
 @employees.route('/all', methods=['GET'])
-@authorize
-@admin_only
-def read_all(jwt_info):
+def read_all():
     '''All employees read endpoint
     ---
-    parameters:
-        - name: Authorization
-          in: header
-          type: string
-          required: true
-          description: Bearer < JWT >
     definitions:
-        Employee:
+        GetEmployee:
             type: object
             properties:
                 id:
@@ -118,29 +48,22 @@ def read_all(jwt_info):
                             schema:
                                 id: Employee
                                 schema:
-                                    $ref: '#/definitions/Employee'
+                                    $ref: '#/definitions/GetEmployee'
     '''
     return jsonify(get_all_employees())
 
 
 @employees.route('/', methods=['GET'])
-@authorize
-@admin_only
-def read(jwt_info):
+def read():
     '''Employee read endpoint
     ---
     parameters:
-        - name: Authorization
-          in: header
-          type: string
-          required: true
-          description: Bearer < JWT >
         - name: id
           in: query
-          type: string
+          type: integer
           required: true
     definitions:
-        Employee:
+        GetEmployee:
             type: object
             properties:
                 id:
@@ -167,7 +90,7 @@ def read(jwt_info):
         200:
             description: Employee information matching target ID
             schema:
-                $ref: '#/definitions/Employee'
+                $ref: '#/definitions/GetEmployee'
     '''
     employee_id = request.args.get('id')
     return jsonify(get_employee(employee_id))
@@ -175,7 +98,6 @@ def read(jwt_info):
 
 @employees.route('/', methods=['PUT'])
 @authorize
-@admin_only
 def update(jwt_info):
     '''Employee update endpoint
     ---
@@ -185,6 +107,10 @@ def update(jwt_info):
           type: string
           required: true
           description: Bearer < JWT >
+        - name: id
+          in: query
+          type: integer
+          required: true
         - name: Employee
           in: body
           required: true
@@ -194,26 +120,38 @@ def update(jwt_info):
         Employee:
             type: object
             properties:
-                id:
-                    type: string
                 email:
                     type: string
-                role:
-                    type: string
+                    description: The user email.
+                    default: "hello@world.com"
                 first:
                     type: string
+                    description: The user first name.
+                    default: "Jan"
                 last:
                     type: string
+                    description: The user last name.
+                    default: "Smith"
                 address:
                     type: string
+                    description: The user address.
+                    default: "123 Test Ln"
                 city:
                     type: string
+                    description: The user city.
+                    default: "San Francisco"
                 state:
                     type: string
+                    description: The user state.
+                    default: "CA"
                 zip:
                     type: string
+                    description: The user zip.
+                    default: "12345"
                 phone:
                     type: string
+                    description: The user phone.
+                    default: "(123)456-7890)"
     responses:
         200:
             description: Employee information
@@ -226,8 +164,9 @@ def update(jwt_info):
                     error:
                         type: string
     '''
+    employee_id = request.args.get('id')
     x = request.get_json()
-    payload = Employee(x['id'], x['email'], x['role'], x['first'], x['last'],
+    payload = Employee(employee_id, x['email'], 'employee', x['first'], x['last'],
                        x['address'], x['city'], x['state'], x['zip'], x['phone'])
     res = update_employee(payload)
     if res == 0:
@@ -237,7 +176,6 @@ def update(jwt_info):
 
 @employees.route('/', methods=['DELETE'])
 @authorize
-@admin_only
 def delete(jwt_info):
     '''Employee delete endpoint
     ---
@@ -249,7 +187,7 @@ def delete(jwt_info):
           description: Bearer < JWT >
         - name: id
           in: query
-          type: string
+          type: integer
           required: true
     responses:
         200:
