@@ -60,6 +60,10 @@ def create():
     payload = Creds(x['email'], x['password'])
     user_role = 'employee'
     user_id = add_user(payload)
+    try:
+        user_id = int(user_id)
+    except ValueError:
+        return auth_error('unable to create user.')
     set_role(user_id, user_role)
     user = auth_user(payload)
     user['token'] = encode_jwt({'id': user_id, 'role': user_role})
